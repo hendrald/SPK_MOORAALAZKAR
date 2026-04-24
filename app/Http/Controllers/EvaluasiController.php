@@ -37,6 +37,7 @@ class EvaluasiController extends Controller
             'guru_id' => 'required|exists:gurus,id',
             'periode' => 'required',
             'nilai'   => 'required|array', // Associative array: ['kriteria_id' => 'nilai', ...]
+            'catatan' => 'nullable|string',
         ]);
 
         // Cek apakah guru di periode ini sudah dievaluasi
@@ -51,7 +52,8 @@ class EvaluasiController extends Controller
         DB::transaction(function () use ($request) {
             $evaluasi = Evaluasi::create([
                 'guru_id' => $request->guru_id,
-                'periode' => $request->periode
+                'periode' => $request->periode,
+                'catatan' => $request->catatan,
             ]);
 
             foreach ($request->nilai as $kriteria_id => $nilai) {
@@ -82,6 +84,7 @@ class EvaluasiController extends Controller
             'guru_id' => 'required|exists:gurus,id',
             'periode' => 'required',
             'nilai'   => 'required|array',
+            'catatan' => 'nullable|string',
         ]);
 
         // Cek duplicate selain current ID
@@ -96,7 +99,8 @@ class EvaluasiController extends Controller
         DB::transaction(function () use ($request, $evaluasi) {
             $evaluasi->update([
                 'guru_id' => $request->guru_id,
-                'periode' => $request->periode
+                'periode' => $request->periode,
+                'catatan' => $request->catatan,
             ]);
 
             // Sync details

@@ -13,7 +13,11 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{ url('/admin/dashboard') }}">
+        @if(Auth::user()->role === 'admin')
+            <a class="nav-link" href="{{ route('admin.dashboard') ?? url('/admin/dashboard') }}">
+        @else
+            <a class="nav-link" href="{{ route('guru.dashboard') }}">
+        @endif
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
     </li>
@@ -54,13 +58,24 @@
             <i class="fas fa-fw fa-clipboard-check"></i>
             <span>Input Nilai Observasi</span></a>
     </li>
-    @endif
-
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.moora.index') }}">
             <i class="fas fa-fw fa-trophy"></i>
             <span>Hasil Akhir (MOORA)</span></a>
     </li>
+    @elseif(Auth::user()->role === 'guru')
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Menu Guru
+    </div>
+
+    <!-- Nav Item - Pengaturan Akun -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('guru.settings') }}">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Pengaturan Akun</span></a>
+    </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

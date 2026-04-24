@@ -65,6 +65,12 @@
                 </div>
                 @endforeach
             </div>
+
+            <hr class="mt-4 mb-4">
+            <h5 class="font-weight-bold mb-3 text-gray-700">Catatan Penilaian (Opsional)</h5>
+            <div class="form-group">
+                <textarea name="catatan" rows="3" class="form-control" placeholder="Tulis catatan, saran, atau apresiasi untuk guru terkait...">{{ old('catatan', $evaluasi->catatan) }}</textarea>
+            </div>
             
             <div class="mt-4">
                 <a href="{{ route('admin.evaluasi.index') }}" class="btn btn-secondary">Batalkan</a>

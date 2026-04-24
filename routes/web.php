@@ -57,7 +57,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         }
 
         return view('admin.dashboard', compact('top5', 'latestPeriod'));
-    });
+    })->name('dashboard');
 
     Route::resource('guru', \App\Http\Controllers\GuruController::class);
     Route::resource('kriteria', \App\Http\Controllers\KriteriaController::class);
@@ -69,14 +69,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
 // Guru Routes
 Route::middleware(['auth', 'role:guru'])->prefix('guru')->name('guru.')->group(function () {
-    Route::get('/dashboard', function () {
-        $guru = \App\Models\Guru::where('user_id', auth()->user()->id)->first();
-        if ($guru) {
-            $evaluasis = \App\Models\Evaluasi::where('guru_id', $guru->id)->with('details.kriteria')->orderBy('periode', 'desc')->get();
-        } else {
-            $evaluasis = collect();
-        }
-        return view('guru.dashboard', compact('guru', 'evaluasis'));
-    })->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\GuruDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/riwayat', [\App\Http\Controllers\GuruDashboardController::class, 'riwayat'])->name('riwayat');
+    Route::get('/settings', [\App\Http\Controllers\GuruDashboardController::class, 'settings'])->name('settings');
+    Route::post('/settings', [\App\Http\Controllers\GuruDashboardController::class, 'updateSettings'])->name('settings.update');
+    Route::get('/cetak-rapor/{periode}', [\App\Http\Controllers\GuruDashboardController::class, 'cetakRapor'])->name('cetak_rapor');
 });
 

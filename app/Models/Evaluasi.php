@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evaluasi extends Model
 {
-    protected $fillable = ['guru_id', 'periode'];
+    protected $fillable = ['guru_id', 'periode', 'catatan'];
 
     public function guru()
     {
