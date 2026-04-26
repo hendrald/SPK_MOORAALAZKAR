@@ -43,7 +43,7 @@
             </a>
         </div>
 
-        <div style="background: rgba(15, 23, 42, 0.4); border-radius: 1rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; border-radius: 1.5rem; overflow: hidden; border: 2px dashed #e5e7eb; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
             <table class="guru-table">
                 <thead>
                     <tr>
@@ -74,7 +74,7 @@
         </div>
 
         @if($evaluasi->catatan)
-        <div style="margin-top: 2rem; background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.2); border-left: 5px solid var(--primary-color); border-radius: 1rem; padding: 1.5rem;">
+        <div style="margin-top: 2rem; background: #eaf4ed; border: 2px dashed var(--accent-color); border-radius: 1.5rem; padding: 1.5rem;">
             <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--primary-color); margin-top: 0; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 10px;">
                 <i class="fas fa-comment-dots" style="font-size: 1.25rem;"></i> Pesan / Catatan Evaluasi Kepala Sekolah:
             </h4>
@@ -91,7 +91,7 @@
     @endif
 @else
     <!-- Initial blank state before selection -->
-    <div class="glass-panel" style="padding: 5rem 2rem; text-align: center; background: rgba(15, 23, 42, 0.4);">
+    <div class="glass-panel" style="padding: 5rem 2rem; text-align: center; background: #ffffff; border: 2px dashed #e5e7eb;">
         <img src="{{ asset('sbadmin/img/undraw_posting_photo.svg') }}" alt="Pilih Periode" style="width: 200px; opacity: 0.8; margin-bottom: 2rem;">
         <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main);">Menunggu Pilihan Anda</h3>
         <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Gunakan form di atas untuk memilih bulan dan tahun evaluasi yang ingin Anda tinjau nilainya.</p>

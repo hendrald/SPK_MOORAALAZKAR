@@ -13,8 +13,8 @@
     <!-- Left Column: Photo Upload Card -->
     <div class="glass-panel" style="padding: 2.5rem;">
         <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-            <div style="background: var(--primary-color); color: white; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-camera" style="font-size: 0.9rem;"></i>
+            <div style="background: rgba(82, 183, 136, 0.15); color: var(--accent-color); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-camera" style="font-size: 1rem;"></i>
             </div>
             Foto Profil
         </h3>
@@ -36,7 +36,7 @@
             <input type="hidden" name="update_type" value="photo">
             
             <div style="text-align: center; margin-bottom: 2rem;">
-                <div style="width: 150px; height: 150px; margin: 0 auto; border-radius: 50%; border: 4px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; background: #f1f5f9; position: relative;">
+                <div style="width: 150px; height: 150px; margin: 0 auto; border-radius: 50%; border: 4px solid var(--accent-color); box-shadow: 0 8px 25px rgba(82, 183, 136, 0.3); overflow: hidden; background: white; position: relative;">
                     @php
                         $guru = \App\Models\Guru::where('user_id', auth()->user()->id)->first();
                     @endphp
@@ -63,8 +63,8 @@
     <!-- Right Column: Password Card -->
     <div class="glass-panel" style="padding: 2.5rem;">
         <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px;">
-            <div style="background: var(--secondary-color); color: white; width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-lock" style="font-size: 0.9rem;"></i>
+            <div style="background: rgba(241, 127, 114, 0.15); color: var(--secondary-color); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-lock" style="font-size: 1rem;"></i>
             </div>
             Ubah Kata Sandi
         </h3>
@@ -105,7 +105,7 @@
                 <input type="password" name="new_password_confirmation" class="modern-input" required placeholder="Ketik ulang sandi baru...">
             </div>
             
-            <button type="submit" class="btn-modern" style="width: 100%; background: linear-gradient(135deg, var(--secondary-color) 0%, #be185d 100%); color: white; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);">
+            <button type="submit" class="btn-modern" style="width: 100%; background: linear-gradient(135deg, var(--secondary-color) 0%, #e85d4e 100%); color: white; box-shadow: 0 4px 15px rgba(241, 127, 114, 0.3);">
                 <i class="fas fa-save"></i> Perbarui Kata Sandi
             </button>
         </form>

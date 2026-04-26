@@ -8,21 +8,20 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-light: #818cf8;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --bg-color: #0f172a;
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --input-bg: rgba(15, 23, 42, 0.6);
+            --primary: #1B4332;
+            --primary-light: #52b788;
+            --secondary: #F17F72;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-color: #f4faf6;
+            --card-bg: #ffffff;
+            --glass-border: #e5e7eb;
+            --input-bg: #f9fafb;
             --error-color: #ef4444;
         }
 
@@ -30,7 +29,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Nunito', sans-serif;
         }
 
         body {
@@ -49,22 +48,22 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.5;
+            opacity: 0.8;
             animation: float 20s infinite alternate;
             z-index: 1;
         }
 
         .orb-1 {
-            background: var(--primary);
-            width: 400px;
-            height: 400px;
+            background: #d8f3df;
+            width: 450px;
+            height: 450px;
             top: -100px;
             left: -100px;
             animation-delay: 0s;
         }
 
         .orb-2 {
-            background: var(--secondary);
+            background: #fde4e1;
             width: 350px;
             height: 350px;
             bottom: -50px;
@@ -73,7 +72,7 @@
         }
 
         .orb-3 {
-            background: #3b82f6;
+            background: #a9deb9;
             width: 300px;
             height: 300px;
             top: 50%;
@@ -89,7 +88,7 @@
             100% { transform: translate(0, 0) scale(1); }
         }
 
-        /* Glass Container */
+        /* Container */
         .login-wrapper {
             position: relative;
             z-index: 10;
@@ -100,23 +99,18 @@
         }
 
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 2rem 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: var(--card-bg);
+            border: 2px dashed var(--glass-border);
+            border-radius: 30px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 40px rgba(27, 67, 50, 0.08);
             animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
             transform: translateY(30px);
         }
 
         @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .header {
@@ -130,27 +124,24 @@
             justify-content: center;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
+            background: rgba(82, 183, 136, 0.15);
+            border-radius: 50%;
             margin-bottom: 1.5rem;
             font-size: 28px;
-            color: white;
-            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            color: var(--primary);
         }
 
         .header h1 {
-            font-size: 22px;
-            font-weight: 700;
+            font-size: 24px;
+            font-weight: 800;
             margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #fff, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
         }
 
         .header p {
             color: var(--text-muted);
             font-size: 15px;
-            font-weight: 300;
+            font-weight: 600;
         }
 
         /* Form Group */
@@ -162,10 +153,11 @@
         .form-label {
             display: block;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            color: #cbd5e1;
+            color: var(--primary);
             transition: color 0.3s;
+            margin-left: 5px;
         }
 
         .input-wrapper {
@@ -176,7 +168,7 @@
 
         .input-icon {
             position: absolute;
-            left: 1rem;
+            left: 1.2rem;
             color: var(--text-muted);
             font-size: 20px;
             transition: all 0.3s ease;
@@ -186,23 +178,25 @@
         .form-control {
             width: 100%;
             background: var(--input-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 0.8rem 1rem 0.8rem 2.8rem;
-            border-radius: 12px;
-            font-size: 14px;
+            border: 2px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.8rem 1rem 0.8rem 3rem;
+            border-radius: 16px;
+            font-size: 15px;
             outline: none;
             transition: all 0.3s ease;
+            font-weight: 600;
         }
 
         .form-control::placeholder {
-            color: #64748b;
+            color: #9ca3af;
+            font-weight: 500;
         }
 
         .form-control:focus {
             border-color: var(--primary-light);
-            background: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(82, 183, 136, 0.15);
         }
 
         .input-wrapper:focus-within .input-icon {
@@ -214,14 +208,15 @@
         .alert-error {
             background: rgba(239, 68, 68, 0.1);
             border-left: 4px solid var(--error-color);
-            color: #fca5a5;
+            color: #b91c1c;
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 1.5rem;
             font-size: 14px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 600;
             animation: shake 0.5s ease-in-out;
         }
 
@@ -235,13 +230,13 @@
         /* Button */
         .btn-submit {
             width: 100%;
-            padding: 0.8rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 1rem;
+            background: var(--primary);
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             color: white;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
@@ -250,28 +245,14 @@
             justify-content: center;
             align-items: center;
             gap: 8px;
-            margin-top: 0.5rem;
-        }
-
-        .btn-submit::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-20deg);
-            transition: all 0.6s ease;
+            margin-top: 1.5rem;
+            box-shadow: 0 8px 20px rgba(27, 67, 50, 0.25);
         }
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
-        }
-
-        .btn-submit:hover::after {
-            left: 150%;
+            background: #122c21;
+            box-shadow: 0 12px 25px rgba(27, 67, 50, 0.35);
         }
 
         .btn-submit:active {
@@ -281,8 +262,8 @@
         /* Credentials info */
         .credentials {
             margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--glass-border);
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--glass-border);
             text-align: center;
         }
 
@@ -290,23 +271,25 @@
             color: var(--text-muted);
             font-size: 13px;
             margin-bottom: 0.5rem;
-            line-height: 1.6;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
+            font-weight: 600;
         }
 
         .credentials p i {
-            color: var(--primary-light);
+            color: var(--secondary);
+            font-size: 16px;
         }
 
         .badge {
-            background: rgba(255,255,255,0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #cbd5e1;
-            font-family: monospace;
+            background: rgba(241, 127, 114, 0.1);
+            padding: 3px 8px;
+            border-radius: 8px;
+            color: var(--secondary);
+            font-family: 'Nunito', monospace;
+            border: 1px solid rgba(241, 127, 114, 0.2);
         }
     </style>
 </head>
@@ -321,8 +304,8 @@
         <div class="glass-card">
             <div class="header">
                 <div style="margin-bottom: 1rem; display: flex; justify-content: center;">
-                    <div style="background: white; padding: 8px; border-radius: 16px; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.2);">
-                        <img src="{{ asset('img/logo.png') }}" alt="Logo TK Al Azkar" style="width: 65px; height: 65px; object-fit: contain;">
+                    <div style="background: white; padding: 12px; border-radius: 20px; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 3px solid var(--primary-light);">
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo TK Al Azkar" style="width: 75px; height: 75px; object-fit: contain; border-radius: 8px;">
                     </div>
                 </div>
                 <h1>SPK Al Azkar</h1>
@@ -361,8 +344,8 @@
             </form>
 
             <div class="credentials">
-                <p><i class="ri-admin-line"></i> <span>Admin: <span class="badge">kepsek@alazkar.tk</span> / <span class="badge">password</span></span></p>
-                <p><i class="ri-user-2-line"></i> <span>Guru: <span class="badge">budi.guru@alazkar.tk</span> / <span class="badge">password</span></span></p>
+                <p><i class="ri-admin-fill"></i> <span>Admin: <span class="badge">kepsek@alazkar.tk</span> / <span class="badge">password</span></span></p>
+                <p><i class="ri-user-smile-fill"></i> <span>Guru: <span class="badge">budi.guru@alazkar.tk</span> / <span class="badge">password</span></span></p>
             </div>
         </div>
     </div>
