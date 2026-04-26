@@ -18,6 +18,43 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('sbadmin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <style>
+        /* Override SB Admin 2 Default Blue with TK Al Azkar Emerald Green */
+        .bg-gradient-alazkar {
+            background-color: #1b7a43;
+            background-image: linear-gradient(180deg, #1b7a43 10%, #0c381f 100%);
+            background-size: cover;
+        }
+        .text-primary {
+            color: #1b7a43 !important;
+        }
+        .bg-primary {
+            background-color: #1b7a43 !important;
+        }
+        .btn-primary {
+            background-color: #1b7a43;
+            border-color: #1b7a43;
+        }
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+            background-color: #145c32 !important;
+            border-color: #12522c !important;
+        }
+        .outline-primary {
+            border-color: #1b7a43;
+            color: #1b7a43;
+        }
+        .outline-primary:hover {
+            background-color: #1b7a43;
+            color: white;
+        }
+        .page-item.active .page-link {
+            background-color: #1b7a43;
+            border-color: #1b7a43;
+        }
+        .dropdown-item.active, .dropdown-item:active {
+            background-color: #1b7a43;
+        }
+    </style>
     @stack('css')
 </head>
 

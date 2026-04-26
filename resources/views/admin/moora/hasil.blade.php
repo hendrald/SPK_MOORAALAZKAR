@@ -4,7 +4,7 @@
 
 @push('css')
 <style>
-    .winner-row { background-color: #d4edda !important; font-weight: bold; }
+    .winner-row { background-color: rgba(27, 122, 67, 0.15) !important; font-weight: bold; }
     .winner-row td:first-child::before {
         content: "\f091";
         font-family: "Font Awesome 5 Free";
@@ -112,7 +112,7 @@
         <h6 class="m-0 font-weight-bold text-primary">3. Nilai Akhir & Pemeringkatan (Yi)</h6>
     </div>
     <div class="card-body">
-        <div class="alert alert-info border-0 shadow-sm mb-4">
+        <div class="alert alert-success border-0 shadow-sm mb-4">
             <b>Keputusan:</b> Berdasarkan perhitungan Multi-Objective Optimization on the basis of Ratio Analysis (MOORA), guru dengan peringkat terbaik pada periode ini jatuh kepada <b>{{ $hasilAkhir[0]['guru'] }}</b>.
         </div>
 
@@ -140,7 +140,7 @@
         </div>
         
         <div class="mt-4">
-            <a href="{{ route('admin.moora.index') }}" class="btn btn-secondary">Kembali Pilih Periode</a>
+            <a href="{{ route('admin.moora.index') }}" class="btn btn-outline-primary px-4"><i class="fas fa-arrow-left mr-1"></i> Kembali Pilih Periode</a>
         </div>
     </div>
 </div>

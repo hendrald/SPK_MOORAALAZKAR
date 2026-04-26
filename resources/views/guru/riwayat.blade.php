@@ -43,7 +43,7 @@
             </a>
         </div>
 
-        <div style="background: white; border-radius: 1rem; overflow: hidden; border: 1px solid #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+        <div style="background: rgba(15, 23, 42, 0.4); border-radius: 1rem; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             <table class="guru-table">
                 <thead>
                     <tr>
@@ -91,7 +91,7 @@
     @endif
 @else
     <!-- Initial blank state before selection -->
-    <div class="glass-panel" style="padding: 5rem 2rem; text-align: center; background: rgba(255,255,255,0.4);">
+    <div class="glass-panel" style="padding: 5rem 2rem; text-align: center; background: rgba(15, 23, 42, 0.4);">
         <img src="{{ asset('sbadmin/img/undraw_posting_photo.svg') }}" alt="Pilih Periode" style="width: 200px; opacity: 0.8; margin-bottom: 2rem;">
         <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main);">Menunggu Pilihan Anda</h3>
         <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Gunakan form di atas untuk memilih bulan dan tahun evaluasi yang ingin Anda tinjau nilainya.</p>

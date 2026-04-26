@@ -23,7 +23,7 @@
     <!-- Mobile Topbar -->
     <div class="guru-topbar-mobile">
         <div class="guru-brand mb-0" style="margin-bottom: 0;">
-            <i class="fas fa-school"></i>
+            <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 32px; background: white; padding: 2px;">
             <span>TK Al Azkar</span>
         </div>
         <button class="guru-hamburger" onclick="toggleSidebar()">
@@ -35,7 +35,7 @@
     <nav class="guru-sidebar" id="guruSidebar">
         <div class="guru-sidebar-inner">
             <a class="guru-brand" href="{{ route('guru.dashboard') }}">
-                <i class="fas fa-school"></i>
+                <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 40px; background: white; padding: 3px;">
                 <span>TK Al Azkar</span>
             </a>
 

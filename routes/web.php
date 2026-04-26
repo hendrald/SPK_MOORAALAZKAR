@@ -65,6 +65,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::get('moora', [\App\Http\Controllers\MooraController::class, 'index'])->name('moora.index');
     Route::post('moora/hitung', [\App\Http\Controllers\MooraController::class, 'hitungMoora'])->name('moora.hitung');
+
+    Route::get('profile', [\App\Http\Controllers\AdminProfileController::class, 'index'])->name('profile');
+    Route::put('profile', [\App\Http\Controllers\AdminProfileController::class, 'update'])->name('profile.update');
 });
 
 // Guru Routes
