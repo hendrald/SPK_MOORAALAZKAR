@@ -344,8 +344,8 @@
             </form>
 
             <div class="credentials">
-                <p><i class="ri-admin-fill"></i> <span>Admin: <span class="badge">kepsek@alazkar.tk</span> / <span class="badge">password</span></span></p>
-                <p><i class="ri-user-smile-fill"></i> <span>Guru: <span class="badge">budi.guru@alazkar.tk</span> / <span class="badge">password</span></span></p>
+                <p><i class="ri-admin-fill"></i> <span>Admin: <span class="badge">kepsek@tkalazkar.sch.id</span> / <span class="badge">AdminAzkar2026!</span></span></p>
+                <p><i class="ri-user-smile-fill"></i> <span>Guru: <span class="badge">septi@tkalazkar.sch.id</span> / <span class="badge">AlazkarHebat!</span></span></p>
             </div>
         </div>
     </div>
