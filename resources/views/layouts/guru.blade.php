@@ -23,7 +23,7 @@
     <!-- Mobile Topbar -->
     <div class="guru-topbar-mobile">
         <div class="guru-brand mb-0" style="margin-bottom: 0;">
-            <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 32px; background: white; padding: 2px;">
+            <img src="{{ asset('img/logo_baru.png') }}" alt="Logo" style="width: 32px; background: white; padding: 2px;">
             <span>TK Al Azkar</span>
         </div>
         <button class="guru-hamburger" onclick="toggleSidebar()">
@@ -35,7 +35,7 @@
     <nav class="guru-sidebar" id="guruSidebar">
         <div class="guru-sidebar-inner">
             <a class="guru-brand" href="{{ route('guru.dashboard') }}">
-                <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 40px; background: white; padding: 3px;">
+                <img src="{{ asset('img/logo_baru.png') }}" alt="Logo" style="width: 40px; background: white; padding: 3px;">
                 <span>TK Al Azkar</span>
             </a>
 
@@ -50,6 +50,12 @@
                     <a class="guru-nav-link {{ request()->routeIs('guru.riwayat') ? 'active' : '' }}" href="{{ route('guru.riwayat') }}">
                         <i class="fas fa-chart-bar"></i>
                         <span>Riwayat Penilaian</span>
+                    </a>
+                </li>
+                <li class="guru-nav-item">
+                    <a class="guru-nav-link {{ request()->routeIs('guru.perbandingan') ? 'active' : '' }}" href="{{ route('guru.perbandingan') }}">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Perbandingan Kinerja</span>
                     </a>
                 </li>
                 <li class="guru-nav-item">
@@ -80,7 +86,7 @@
     <!-- Scripts -->
     <script>
         function toggleSidebar() {
-            document.getElementById('guruSidebar').classList.toggle('show');
+            document.getElementById('guruSidebar').classList.toggle('active');
         }
 
         // Dropdown/Accordion mechanics for Vanilla JS

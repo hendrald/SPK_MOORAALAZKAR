@@ -16,15 +16,14 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
                 
-                <p>Mesin SPK berbasis MOORA akan memproses seluruh data input obeservasi pada periode yang Anda pilih untuk memberikan pemeringkatan akhir.</p>
                 <form action="{{ route('admin.moora.hitung') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label>Bulan / Tahun Evaluasi</label>
+                        <label>Tahun Ajaran / Semester Evaluasi</label>
                         <select name="periode" class="form-control" required>
                             <option value="">-- Pilih Periode --</option>
                             @foreach($periodes as $p)
-                                <option value="{{ $p->periode }}">{{ date('F Y', strtotime($p->periode . '-01')) }} ({{$p->periode}})</option>
+                                <option value="{{ $p->periode }}">{{ $p->periode }}</option>
                             @endforeach
                         </select>
                     </div>

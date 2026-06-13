@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Evaluasi extends Model
 {
-    protected $fillable = ['guru_id', 'periode', 'catatan'];
+    protected $fillable = ['guru_id', 'penilai_id', 'periode', 'catatan'];
+
+    public function penilai()
+    {
+        return $this->belongsTo(User::class, 'penilai_id');
+    }
 
     public function guru()
     {

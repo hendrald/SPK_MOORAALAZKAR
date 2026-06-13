@@ -8,7 +8,7 @@
     <p style="color: var(--text-muted); font-size: 1.1rem;">Perbarui kata sandi dan unggah foto profil terbaru Anda di sini.</p>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
     
     <!-- Left Column: Photo Upload Card -->
     <div class="glass-panel" style="padding: 2.5rem;">

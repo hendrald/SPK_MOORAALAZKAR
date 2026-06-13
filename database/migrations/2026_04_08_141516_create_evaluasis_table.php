@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('evaluasis', function (Blueprint $table) {
             $table->id();
             $table->foreignId('guru_id')->constrained('gurus')->onDelete('cascade');
+            $table->foreignId('penilai_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('periode');
             $table->timestamps();
         });

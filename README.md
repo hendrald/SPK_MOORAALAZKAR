@@ -1,13 +1,31 @@
 # SPK MOORA - Teacher Performance Decision Support System
 
-A Decision Support System (DSS) application built with Laravel and PostgreSQL using the MOORA (Multi-Objective Optimization on the Basis of Ratio Analysis) algorithm to evaluate teacher performance effectively and objectively.
+A Decision Support System (DSS) / Sistem Pendukung Keputusan (SPK) application built with Laravel and MySQL using the MOORA (Multi-Objective Optimization on the Basis of Ratio Analysis) algorithm to evaluate teacher performance effectively and objectively.
 
 ## 🌟 Fitur Utama
-- **Autentikasi Multi-Role**: Sistem role berbasis hak akses (Superadmin/Kepala Sekolah, Admin, Guru).
-- **Dashboard Admin**: Mengelola data kriteria, bobot, alternatif (guru), dan evaluasi.
-- **Implementasi MOORA**: Proses perhitungan normalisasi matriks, optimalisasi, hingga penentuan ranking secara otomatis.
-- **Laporan & Ekspor Data**: Hasil penilaian dapat dilihat secara komprehensif, bisa dicetak, dan diekspor ke PDF/Excel.
-- **Portal Guru**: Dashboard interaktif untuk guru dilengkapi notifikasi performa, statistik pencapaian (radar chart), dan fitur unduh rapor evaluasi format PDF.
+- **Autentikasi Multi-Role**: Sistem role berbasis hak akses (Superadmin/Kepala Sekolah, Admin/Penilai Tambahan, Guru).
+- **Dashboard Admin & Kelola Admin**: Mengelola data kriteria, bobot, alternatif (guru), penilai tambahan, dan evaluasi.
+- **Implementasi MOORA Multi-Penilai**: Proses perhitungan normalisasi matriks, optimalisasi, hingga penentuan ranking secara otomatis menggunakan nilai agregat/rata-rata dari seluruh penilai.
+- **Laporan & Ekspor Data**: Hasil penilaian dapat dilihat secara komprehensif, bisa dicetak, dan diekspor ke Excel (CSV).
+- **Portal Guru (Mint & Coral Aesthetic)**: Dashboard interaktif untuk guru dilengkapi notifikasi performa, statistik pencapaian, dan unduh rapor evaluasi periode tertentu.
+- **Perbandingan Nilai Antar Periode**: Membandingkan nilai kinerja dari dua semester yang berbeda baik di panel admin maupun di portal guru.
+
+---
+
+## 🔑 Akun Uji Coba (Seeded Accounts)
+Setelah menjalankan seeder, gunakan akun berikut untuk masuk ke sistem:
+
+### 1. Peran: Admin / Kepala Sekolah (Evaluator Utama)
+- **Email:** `kepsek@tkalazkar.sch.id`
+- **Password:** `AdminAzkar2026!`
+
+### 2. Peran: Admin / Tim Penilai Kedua (Evaluator Tambahan)
+- **Email:** `penilai@tkalazkar.sch.id`
+- **Password:** `AdminAzkar2026!`
+
+### 3. Peran: Guru (Contoh Guru)
+- **Email:** `septi@tkalazkar.sch.id` (atau nama depan guru lainnya seperti `dewi@tkalazkar.sch.id`)
+- **Password:** `AlazkarHebat!`
 
 ---
 
@@ -44,14 +62,14 @@ File utama konfigurasi `.env` sifatnya rahasia, jadi yang masuk ke GitHub hanya 
   ```
 
 ### 5. Konfigurasi Database
-Buka file `.env` di text editor (seperti VSCode), cari konfigurasi database, dan ubah nilainya (pastikan Anda sudah membuat databasenya di server database lokal Anda, misal PostgreSQL/MySQL):
+Buka file `.env` di text editor (seperti VSCode), cari konfigurasi database, dan sesuaikan nilainya (pastikan Anda sudah membuat databasenya di server database lokal Anda, misal MySQL di Laragon/XAMPP):
 ```env
-DB_CONNECTION=pgsql
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
-DB_PORT=5432
+DB_PORT=3306
 DB_DATABASE=spk_moora
-DB_USERNAME=postgres
-DB_PASSWORD=password_db_kamu
+DB_USERNAME=root
+DB_PASSWORD=
 ```
 
 ### 6. Generate Application Key
@@ -61,12 +79,12 @@ php artisan key:generate
 ```
 
 ### 7. Jalankan Migrasi & Database Seeder
-Langkah ini menyiapkan ulang seluruh tabel di database dan mengisi akun awal (seperti akun superadmin dan guru-guru awal):
+Langkah ini menyiapkan ulang seluruh tabel di database dan mengisi akun awal (seperti akun penilai dan data awal guru, kriteria, & evaluasi):
 ```bash
 php artisan migrate --seed
 ```
 
-### 8. Hubungkan Public Storage (Opsional)
+### 8. Hubungkan Public Storage
 Dibutuhkan jika project mengelola file media seperti upload foto profil dari direktori penyimpanan:
 ```bash
 php artisan storage:link
@@ -78,7 +96,7 @@ Namun, jika Anda tidak menggunakan Laragon, nyalakan *server local* milik Larave
 ```bash
 php artisan serve
 ```
-Buka browser dan buka `http://localhost:8000`
+Buka browser dan buka `http://127.0.0.1:8000`
 
 ---
-*Developed with Laravel & SB-Admin-2 Dashboard*
+*Developed with Laravel & Custom Responsive Theme*

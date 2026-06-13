@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kode_kriteria')->unique();
             $table->string('nama_kriteria');
             $table->enum('jenis', ['Benefit', 'Cost']);
-            $table->decimal('bobot', 5, 2);
+            $table->double('bobot');
             $table->timestamps();
         });
     }

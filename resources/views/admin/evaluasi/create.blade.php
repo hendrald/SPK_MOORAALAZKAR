@@ -34,9 +34,30 @@
                     </select>
                 </div>
                 <div class="col-md-6 form-group">
-                    <label>Periode Penilaian <span class="text-danger">*</span></label>
-                    <input type="month" name="periode" class="form-control" value="{{ old('periode', date('Y-m')) }}" required>
-                    <small class="text-muted">Format: Bulan & Tahun (Contoh: April 2026)</small>
+                    <label>Tahun Ajaran & Semester <span class="text-danger">*</span></label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select name="tahun_ajaran" class="form-control" required>
+                                <option value="">-- Tahun Ajaran --</option>
+                                @php
+                                    $currentYear = date('Y');
+                                @endphp
+                                @for($i = $currentYear - 3; $i <= $currentYear + 2; $i++)
+                                    @php
+                                        $ta = $i . '/' . ($i + 1);
+                                    @endphp
+                                    <option value="{{ $ta }}" {{ old('tahun_ajaran') == $ta ? 'selected' : '' }}>{{ $ta }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select name="semester" class="form-control" required>
+                                <option value="">-- Semester --</option>
+                                <option value="Ganjil" {{ old('semester') == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
+                                <option value="Genap" {{ old('semester') == 'Genap' ? 'selected' : '' }}>Genap</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 

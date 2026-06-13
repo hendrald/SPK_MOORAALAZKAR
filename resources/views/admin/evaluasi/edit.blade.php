@@ -36,8 +36,41 @@
                     </select>
                 </div>
                 <div class="col-md-6 form-group">
-                    <label>Periode Penilaian <span class="text-danger">*</span></label>
-                    <input type="month" name="periode" class="form-control" value="{{ old('periode', $evaluasi->periode) }}" required>
+                    <label>Tahun Ajaran & Semester <span class="text-danger">*</span></label>
+                    @php
+                        $selectedTahun = '';
+                        $selectedSemester = '';
+                        if (isset($evaluasi) && $evaluasi->periode) {
+                            $parts = explode(' - ', $evaluasi->periode);
+                            if (count($parts) === 2) {
+                                $selectedTahun = $parts[0];
+                                $selectedSemester = $parts[1];
+                            }
+                        }
+                    @endphp
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select name="tahun_ajaran" class="form-control" required>
+                                <option value="">-- Tahun Ajaran --</option>
+                                @php
+                                    $currentYear = date('Y');
+                                @endphp
+                                @for($i = $currentYear - 3; $i <= $currentYear + 2; $i++)
+                                    @php
+                                        $ta = $i . '/' . ($i + 1);
+                                    @endphp
+                                    <option value="{{ $ta }}" {{ old('tahun_ajaran', $selectedTahun) == $ta ? 'selected' : '' }}>{{ $ta }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select name="semester" class="form-control" required>
+                                <option value="">-- Semester --</option>
+                                <option value="Ganjil" {{ old('semester', $selectedSemester) == 'Ganjil' ? 'selected' : '' }}>Ganjil</option>
+                                <option value="Genap" {{ old('semester', $selectedSemester) == 'Genap' ? 'selected' : '' }}>Genap</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 

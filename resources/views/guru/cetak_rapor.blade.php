@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cetak Rapor Kinerja Guru - {{ date('F Y', strtotime($evaluasi->periode . '-01')) }}</title>
+    <title>Cetak Rapor Kinerja Guru - {{ $evaluasi->periode }}</title>
     <!-- Custom fonts for this template-->
     <link href="{{ asset('sbadmin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <!-- Custom HTML/CSS framework just for printing -->
@@ -102,9 +102,13 @@
         <i class="fas fa-print"></i> Cetak Dokumen
     </button>
 
-    <div class="header">
-        <h1>TK AL AZKAR</h1>
-        <p>Laporan Evaluasi dan Penilaian Kinerja Guru</p>
+    <div class="header" style="display: flex; align-items: center; justify-content: center; gap: 20px; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 30px;">
+        <img src="{{ asset('img/logo_baru.png') }}" alt="Logo TK Al Azkar" style="width: 75px; height: 75px; object-fit: contain;">
+        <div style="text-align: center;">
+            <h1 style="margin: 0; font-size: 20px; text-transform: uppercase; font-weight: bold;">KB-TK ISLAM AL AZKAR</h1>
+            <p style="margin: 5px 0 0; font-size: 11px; color: #555; font-style: italic;">Jl. Karang Tengah Raya No. 30A RT 6 RW 4 Lebak Bulus, Cilandak, Jakarta Selatan 12440</p>
+            <p style="margin: 5px 0 0; font-size: 13px; font-weight: bold; color: #000;">Laporan Evaluasi dan Penilaian Kinerja Guru</p>
+        </div>
     </div>
 
     <table class="info-table">
@@ -112,7 +116,7 @@
             <td class="label">Nama Guru</td>
             <td>: {{ $guru->nama_lengkap }}</td>
             <td class="label">Periode Evaluasi</td>
-            <td>: {{ date('F Y', strtotime($evaluasi->periode . '-01')) }}</td>
+            <td>: {{ $evaluasi->periode }}</td>
         </tr>
         <tr>
             <td class="label">NIP</td>
@@ -150,7 +154,7 @@
 
     <div class="footer">
         <div class="signature-box">
-            <p class="date">Jakarta, {{ date('d F Y') }}<br>Kepala Sekolah TK Al Azkar</p>
+            <p class="date">Jakarta Selatan, {{ date('d F Y') }}<br>Kepala Sekolah TK Al Azkar</p>
             <p class="name">( ........................................ )</p>
         </div>
     </div>

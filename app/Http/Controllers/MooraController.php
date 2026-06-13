@@ -31,74 +31,103 @@ class MooraController extends Controller
         }
 
         $totalBobot = $kriterias->sum('bobot');
-        if (round($totalBobot, 2) != 1) {
-            return back()->with('error', "Perhitungan dibatalkan! Total bobot Kriteria saat ini adalah $totalBobot. Total wajib 1 (100%) agar MOORA valid. Silakan sesuaikan.");
+        if (round($totalBobot, 2) != 100) {
+            return back()->with('error', "Perhitungan dibatalkan! Total bobot Kriteria saat ini adalah $totalBobot. Total wajib 100 (100%) agar MOORA valid. Silakan sesuaikan.");
         }
 
         // Ambil evaluasi berdasarkan periode
-        $evaluasis = Evaluasi::with(['guru', 'details'])->where('periode', $periode)->get();
+        $evaluasis = Evaluasi::with(['guru', 'details', 'penilai'])->where('periode', $periode)->get();
 
         if ($evaluasis->isEmpty()) {
             return back()->with('error', 'Data evaluasi untuk periode ini belum tersedia.');
         }
 
-        // 1. Matriks Keputusan (X)
-        $matriksX = [];
-        foreach ($evaluasis as $evaluasi) {
-            foreach ($kriterias as $kriteria) {
-                // Cari nilai detail per kriteria
-                $detail = $evaluasi->details->firstWhere('kriteria_id', $kriteria->id);
-                $matriksX[$evaluasi->id][$kriteria->id] = $detail ? $detail->nilai : 0;
-            }
-        }
+        // Group by penilai (evaluator)
+        $groupedEvaluasis = $evaluasis->groupBy('penilai_id');
+        $scoresByGuru = [];
+        $penilaiResults = [];
 
-        // 2. Normalisasi Matriks (X*)
-        // Cari pembagi (akar dari sum(nilai^2)) per kriteria
-        $pembagi_kriteria = [];
-        foreach ($kriterias as $kriteria) {
-            $sum_kuadrat = 0;
-            foreach ($evaluasis as $evaluasi) {
-                $nilai_x = $matriksX[$evaluasi->id][$kriteria->id];
-                $sum_kuadrat += pow($nilai_x, 2);
-            }
-            $pembagi_kriteria[$kriteria->id] = sqrt($sum_kuadrat);
-        }
+        foreach ($groupedEvaluasis as $penilaiId => $evalGroup) {
+            $penilai = $evalGroup->first()->penilai ?? (object)['name' => 'System'];
 
-        $matriksNormalisasi = [];
-        foreach ($evaluasis as $evaluasi) {
-            foreach ($kriterias as $kriteria) {
-                $nilai_x = $matriksX[$evaluasi->id][$kriteria->id];
-                $pembagi = $pembagi_kriteria[$kriteria->id] == 0 ? 1 : $pembagi_kriteria[$kriteria->id];
-                $matriksNormalisasi[$evaluasi->id][$kriteria->id] = $nilai_x / $pembagi;
-            }
-        }
-
-        // 3. Optimasi (Pembobotan) & 4. Perankingan (Yi)
-        $hasilAkhir = [];
-        foreach ($evaluasis as $evaluasi) {
-            $sumBenefit = 0;
-            $sumCost = 0;
-
-            foreach ($kriterias as $kriteria) {
-                // Kalikan nilai normalisasi dengan bobot kriteria
-                $nilaiBobot = $matriksNormalisasi[$evaluasi->id][$kriteria->id] * $kriteria->bobot;
-
-                // Pisahkan Cost dan Benefit
-                if ($kriteria->jenis === 'Benefit') {
-                    $sumBenefit += $nilaiBobot;
-                } else {
-                    $sumCost += $nilaiBobot;
+            // 1. Matriks Keputusan (X) untuk penilai ini
+            $matriksX = [];
+            foreach ($evalGroup as $evaluasi) {
+                foreach ($kriterias as $kriteria) {
+                    $detail = $evaluasi->details->firstWhere('kriteria_id', $kriteria->id);
+                    $matriksX[$evaluasi->id][$kriteria->id] = $detail ? $detail->nilai : 0;
                 }
             }
 
-            // Hitung Nilai Akhir (Yi) = Sum Benefit - Sum Cost
-            $nilai_yi = $sumBenefit - $sumCost;
+            // 2. Normalisasi Matriks (X*) untuk penilai ini
+            $pembagi_kriteria = [];
+            foreach ($kriterias as $kriteria) {
+                $sum_kuadrat = 0;
+                foreach ($evalGroup as $evaluasi) {
+                    $nilai_x = $matriksX[$evaluasi->id][$kriteria->id];
+                    $sum_kuadrat += pow($nilai_x, 2);
+                }
+                $pembagi_kriteria[$kriteria->id] = sqrt($sum_kuadrat) ?: 1;
+            }
+
+            $matriksNormalisasi = [];
+            foreach ($evalGroup as $evaluasi) {
+                foreach ($kriterias as $kriteria) {
+                    $nilai_x = $matriksX[$evaluasi->id][$kriteria->id];
+                    $pembagi = $pembagi_kriteria[$kriteria->id] == 0 ? 1 : $pembagi_kriteria[$kriteria->id];
+                    $matriksNormalisasi[$evaluasi->id][$kriteria->id] = $nilai_x / $pembagi;
+                }
+            }
+
+            // 3. Optimasi (Pembobotan) & Yi untuk penilai ini
+            $hasilPenilai = [];
+            foreach ($evalGroup as $evaluasi) {
+                $sumBenefit = 0;
+                $sumCost = 0;
+
+                foreach ($kriterias as $kriteria) {
+                    // Bagi bobot dengan 100 karena bobot adalah persentase (1-100)
+                    $nilaiBobot = $matriksNormalisasi[$evaluasi->id][$kriteria->id] * ($kriteria->bobot / 100);
+
+                    if ($kriteria->jenis === 'Benefit') {
+                        $sumBenefit += $nilaiBobot;
+                    } else {
+                        $sumCost += $nilaiBobot;
+                    }
+                }
+
+                $nilai_yi = $sumBenefit - $sumCost;
+                $hasilPenilai[$evaluasi->guru_id] = $nilai_yi;
+                $scoresByGuru[$evaluasi->guru_id][$penilaiId] = $nilai_yi;
+            }
+
+            $penilaiResults[$penilaiId] = [
+                'penilai' => $penilai,
+                'evaluasis' => $evalGroup,
+                'matriksX' => $matriksX,
+                'matriksNormalisasi' => $matriksNormalisasi,
+                'hasilPenilai' => $hasilPenilai,
+            ];
+        }
+
+        // 4. Kalkulasi Rata-rata Yi dan Perankingan Akhir
+        $hasilAkhir = [];
+        $uniqueGuruIds = $evaluasis->pluck('guru_id')->unique();
+        
+        foreach ($uniqueGuruIds as $guruId) {
+            $scores = $scoresByGuru[$guruId] ?? [];
+            $averageYi = count($scores) > 0 ? array_sum($scores) / count($scores) : 0;
+            
+            $firstEval = $evaluasis->firstWhere('guru_id', $guruId);
+            $guruModel = $firstEval->guru;
 
             $hasilAkhir[] = [
-                'guru'     => $evaluasi->guru->nama_lengkap,
-                'nip'      => $evaluasi->guru->nip,
-                'foto'     => $evaluasi->guru->foto,
-                'nilai_yi' => $nilai_yi
+                'guru_id'  => $guruId,
+                'guru'     => $guruModel->nama_lengkap,
+                'nip'      => $guruModel->nip,
+                'foto'     => $guruModel->foto,
+                'nilai_yi' => $averageYi,
+                'scores'   => $scores
             ];
         }
 
@@ -112,7 +141,7 @@ class MooraController extends Controller
             return view('admin.moora.cetak', compact('periode', 'hasilAkhir'));
         }
 
-        // Jika Request membedakan untuk Export Excel (CSV Format for Native Compatibility)
+        // Jika Request membedakan untuk Export Excel (CSV Format)
         if ($request->action === 'excel') {
             $fileName = "Hasil_MOORA_{$periode}.csv";
             
@@ -124,20 +153,19 @@ class MooraController extends Controller
                 "Expires"             => "0"
             );
             
-            $columns = array('Peringkat', 'NIP', 'Nama Lengkap Guru', 'Nilai Akhir (Yi)');
+            $columns = array('Peringkat', 'NIP', 'Nama Lengkap Guru', 'Nilai Akhir Rata-rata (Yi)');
 
             $callback = function() use($hasilAkhir, $columns) {
                 $file = fopen('php://output', 'w');
-                // Output Excel BOM for UTF-8 visibility in MS Excel
                 fputs($file, "\xEF\xBB\xBF");
-                fputcsv($file, $columns, ';'); // Gunakan separator ; agar langsung jadi kolom di Excel versi Indonesia/Eropa
+                fputcsv($file, $columns, ';');
 
                 foreach ($hasilAkhir as $index => $row) {
                     fputcsv($file, array(
                         $index + 1,
                         $row['nip'] ? $row['nip'] : '-',
                         $row['guru'],
-                        number_format($row['nilai_yi'], 4, ',', '.') // Format angka excel
+                        number_format($row['nilai_yi'], 4, ',', '.')
                     ), ';');
                 }
                 fclose($file);
@@ -146,7 +174,6 @@ class MooraController extends Controller
             return response()->stream($callback, 200, $headers);
         }
 
-        // Hasil passing ke view Admin
-        return view('admin.moora.hasil', compact('periode', 'hasilAkhir', 'kriterias', 'matriksX', 'matriksNormalisasi', 'evaluasis'));
+        return view('admin.moora.hasil', compact('periode', 'hasilAkhir', 'kriterias', 'penilaiResults'));
     }
 }

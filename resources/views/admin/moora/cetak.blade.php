@@ -36,15 +36,18 @@
         <button onclick="window.close()" style="padding: 10px 20px; font-size: 14px; cursor: pointer;">Tutup</button>
     </div>
 
-    <div class="kop-surat">
-        <h2>TAMAN KANAK-KANAK (TK) AL AZKAR</h2>
-        <h4>KECAMATAN SETU - KABUPATEN BEKASI</h4>
-        <p>Alamat: Jl. Setu Indah No. 123, Kelurahan Setu, Bekasi, Jawa Barat. Kodepos: 17320</p>
+    <div class="kop-surat" style="display: flex; align-items: center; justify-content: center; gap: 20px; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
+        <img src="{{ asset('img/logo_baru.png') }}" alt="Logo TK Al Azkar" style="width: 80px; height: 80px; object-fit: contain;">
+        <div style="text-align: center;">
+            <h2 style="margin: 0; font-size: 18pt; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px;">KB-TK ISLAM AL AZKAR</h2>
+            <h4 style="margin: 5px 0 0; font-size: 12pt; font-weight: bold; text-transform: uppercase;">KECAMATAN CILANDAK - KOTA JAKARTA SELATAN</h4>
+            <p style="margin: 5px 0 0; font-size: 9pt; font-style: italic;">Alamat: Jl. Karang Tengah Raya No. 30A RT 6 RW 4 Lebak Bulus, Cilandak, Jakarta Selatan 12440</p>
+        </div>
     </div>
 
     <div class="isi-surat">
         <div class="judul-laporan">LAPORAN HASIL PENILAIAN KINERJA GURU</div>
-        <p>Berdasarkan hasil analisis sistem pendukung keputusan menggunakan metode <i>Multi-Objective Optimization on the basis of Ratio Analysis</i> (MOORA) pada periode evaluasi <b>{{ date('F Y', strtotime($periode . '-01')) }}</b>, dengan ini diterbitkan daftar peringkat keseluruhan guru TK Al Azkar sebagai berikut:</p>
+        <p>Berdasarkan hasil analisis sistem pendukung keputusan menggunakan metode <i>Multi-Objective Optimization on the basis of Ratio Analysis</i> (MOORA) pada periode evaluasi <b>{{ $periode }}</b>, dengan ini diterbitkan daftar peringkat keseluruhan guru TK Al Azkar sebagai berikut:</p>
         
         <table>
             <thead>
@@ -76,9 +79,9 @@
     </div>
 
     <div class="tanda-tangan">
-        <p>Bekasi, {{ date('d F Y') }}<br>Kepala Sekolah TK Al Azkar</p>
-        <p class="nama-kepsek">Hj. Maimunah, S.Pd., PAUD.</p>
-        <p style="margin:0;">NIP. 19780512 200501 2 001</p>
+        <p>Jakarta Selatan, {{ date('d F Y') }}<br>Kepala Sekolah TK Al Azkar</p>
+        <p class="nama-kepsek">Septi Asmara Komalasari, S.Pd.I., M.Pd.</p>
+        <p style="margin:0;">NIP. 3240752653300023</p>
     </div>
 
 </body>

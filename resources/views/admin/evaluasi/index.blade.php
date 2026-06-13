@@ -7,8 +7,7 @@
 @endpush
 
 @section('content')
-<h1 class="h3 mb-2 text-gray-800">Data Observasi / Evaluasi Guru</h1>
-<p class="mb-4">Tabel hasil _input_ penilaian yang didapatkan masing-masing guru pada suatu periode. Data ini yang akan diproses oleh mesin MOORA untuk diranking.</p>
+<h1 class="h3 mb-4 text-gray-800">Data Observasi / Evaluasi Guru</h1>
 
 @if(session('success'))
 <div class="alert alert-success">{{ session('success') }}</div>
@@ -29,6 +28,7 @@
                         <th width="5%">No</th>
                         <th>Periode</th>
                         <th>Nama Guru</th>
+                        <th>Penilai (Evaluator)</th>
                         <th>Jumlah Parameter Dinilai</th>
                         <th width="15%">Aksi</th>
                     </tr>
@@ -39,6 +39,7 @@
                         <td>{{ $index + 1 }}</td>
                         <td><span class="badge badge-info">{{ $eva->periode }}</span></td>
                         <td><b>{{ $eva->guru->nama_lengkap }}</b></td>
+                        <td><span class="badge badge-secondary"><i class="fas fa-user-edit"></i> {{ $eva->penilai->name ?? 'System' }}</span></td>
                         <td>{{ $eva->details()->count() }} Kriteria</td>
                         <td>
                             <a href="{{ route('admin.evaluasi.edit', $eva->id) }}" class="btn btn-warning btn-sm" title="Edit Rincian"><i class="fas fa-edit"></i></a>
@@ -51,7 +52,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted">Belum ada data nilai observasi sejauh ini.</td>
+                        <td colspan="6" class="text-center text-muted">Belum ada data nilai observasi sejauh ini.</td>
                     </tr>
                     @endforelse
                 </tbody>

@@ -7,8 +7,7 @@
 @endpush
 
 @section('content')
-<h1 class="h3 mb-2 text-gray-800">Master Data Kriteria</h1>
-<p class="mb-4">Daftar ukuran parameter yang menjadi penilaian dasar kinerja guru menggunakan model MOORA (Total keseluruhan bobot wajib berjumlah 100).</p>
+<h1 class="h3 mb-4 text-gray-800">Master Data Kriteria</h1>
 
 @if(session('success'))
 <div class="alert alert-success">

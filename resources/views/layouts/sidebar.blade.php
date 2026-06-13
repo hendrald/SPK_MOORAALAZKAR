@@ -38,6 +38,13 @@
             <span>Data Guru</span></a>
     </li>
 
+    <!-- Nav Item - Kelola Admin -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.admin-user.index') }}">
+            <i class="fas fa-fw fa-user-shield"></i>
+            <span>Kelola Admin</span></a>
+    </li>
+
     <!-- Nav Item - Data Kriteria -->
     <li class="nav-item">
         <a class="nav-link" href="{{ route('admin.kriteria.index') }}">
@@ -63,11 +70,30 @@
             <i class="fas fa-fw fa-trophy"></i>
             <span>Hasil Akhir (MOORA)</span></a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.perbandingan') }}">
+            <i class="fas fa-fw fa-exchange-alt"></i>
+            <span>Perbandingan Nilai</span></a>
+    </li>
     @elseif(Auth::user()->role === 'guru')
     <!-- Heading -->
     <div class="sidebar-heading">
         Menu Guru
     </div>
+
+    <!-- Nav Item - Riwayat Kinerja -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('guru.riwayat') }}">
+            <i class="fas fa-fw fa-clipboard-list"></i>
+            <span>Riwayat Kinerja</span></a>
+    </li>
+
+    <!-- Nav Item - Perbandingan Kinerja -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('guru.perbandingan') }}">
+            <i class="fas fa-fw fa-exchange-alt"></i>
+            <span>Perbandingan Kinerja</span></a>
+    </li>
 
     <!-- Nav Item - Pengaturan Akun -->
     <li class="nav-item">

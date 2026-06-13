@@ -24,8 +24,12 @@ class GuruDashboardController extends Controller
             return view('guru.riwayat', ['guru' => null, 'periods' => [], 'selectedPeriod' => null, 'evaluasi' => null]);
         }
 
-        // Get all periods for this teacher to populate dropdown
-        $periods = Evaluasi::where('guru_id', $guru->id)->orderBy('periode', 'desc')->pluck('periode');
+        // Get all unique periods for this teacher to populate dropdown
+        $periods = Evaluasi::where('guru_id', $guru->id)
+            ->select('periode')
+            ->distinct()
+            ->orderBy('periode', 'desc')
+            ->pluck('periode');
 
         $selectedPeriod = $request->input('periode');
         $evaluasi = null;
@@ -95,8 +99,12 @@ class GuruDashboardController extends Controller
         return back();
     }
 
-    public function cetakRapor($periode)
+    public function cetakRapor(Request $request)
     {
+        $periode = $request->query('periode');
+        if (!$periode) {
+            abort(404, 'Periode tidak ditentukan');
+        }
         $guru = Guru::where('user_id', auth()->user()->id)->firstOrFail();
         $evaluasi = Evaluasi::where('guru_id', $guru->id)->where('periode', $periode)->with('details.kriteria')->firstOrFail();
 
@@ -104,35 +112,45 @@ class GuruDashboardController extends Controller
         $kriterias = Kriteria::orderBy('kode_kriteria', 'asc')->get();
         $semuaEvaluasi = Evaluasi::with('details')->where('periode', $periode)->get();
 
-        $matriksX = [];
-        foreach ($semuaEvaluasi as $ev) {
+        $groupedEvaluasis = $semuaEvaluasi->groupBy('penilai_id');
+        $scoresByGuru = [];
+
+        foreach ($groupedEvaluasis as $penilaiId => $evalGroup) {
+            $matriksX = [];
+            foreach ($evalGroup as $ev) {
+                foreach ($kriterias as $kriteria) {
+                    $detail = $ev->details->firstWhere('kriteria_id', $kriteria->id);
+                    $matriksX[$ev->id][$kriteria->id] = $detail ? $detail->nilai : 0;
+                }
+            }
+
+            $pembagi_kriteria = [];
             foreach ($kriterias as $kriteria) {
-                $detail = $ev->details->firstWhere('kriteria_id', $kriteria->id);
-                $matriksX[$ev->id][$kriteria->id] = $detail ? $detail->nilai : 0;
+                $sum_kuadrat = 0;
+                foreach ($evalGroup as $ev) {
+                    $sum_kuadrat += pow($matriksX[$ev->id][$kriteria->id], 2);
+                }
+                $pembagi_kriteria[$kriteria->id] = sqrt($sum_kuadrat) ?: 1;
+            }
+
+            foreach ($evalGroup as $ev) {
+                $sumBenefit = 0;
+                $sumCost = 0;
+                foreach ($kriterias as $kriteria) {
+                    $nilai_x = $matriksX[$ev->id][$kriteria->id];
+                    $nilaiBobot = ($nilai_x / $pembagi_kriteria[$kriteria->id]) * ($kriteria->bobot / 100);
+                    if ($kriteria->jenis === 'Benefit') {
+                        $sumBenefit += $nilaiBobot;
+                    } else {
+                        $sumCost += $nilaiBobot;
+                    }
+                }
+                $scoresByGuru[$ev->guru_id][] = $sumBenefit - $sumCost;
             }
         }
 
-        $pembagi_kriteria = [];
-        foreach ($kriterias as $kriteria) {
-            $sum_kuadrat = 0;
-            foreach ($semuaEvaluasi as $ev) {
-                $sum_kuadrat += pow($matriksX[$ev->id][$kriteria->id], 2);
-            }
-            $pembagi_kriteria[$kriteria->id] = sqrt($sum_kuadrat) ?: 1;
-        }
-
-        $sumBenefit = 0;
-        $sumCost = 0;
-        foreach ($kriterias as $kriteria) {
-            $nilai_x = isset($matriksX[$evaluasi->id][$kriteria->id]) ? $matriksX[$evaluasi->id][$kriteria->id] : 0;
-            $nilaiBobot = ($nilai_x / $pembagi_kriteria[$kriteria->id]) * $kriteria->bobot;
-            if ($kriteria->jenis === 'Benefit') {
-                $sumBenefit += $nilaiBobot;
-            } else {
-                $sumCost += $nilaiBobot;
-            }
-        }
-        $nilai_yi = $sumBenefit - $sumCost;
+        $scores = $scoresByGuru[$guru->id] ?? [];
+        $nilai_yi = count($scores) > 0 ? array_sum($scores) / count($scores) : 0;
 
         return view('guru.cetak_rapor', compact('guru', 'evaluasi', 'nilai_yi'));
     }

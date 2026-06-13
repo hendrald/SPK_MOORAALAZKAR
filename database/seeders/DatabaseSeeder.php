@@ -9,52 +9,58 @@ use App\Models\Kriteria;
 use App\Models\Evaluasi;
 use App\Models\EvaluasiDetail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Akun Kepala Sekolah (Admin)
-        User::create([
+        // 1. Akun Admin (2 Penilai)
+        $admin1 = User::create([
             'name' => 'Kepala Sekolah',
             'email' => 'kepsek@tkalazkar.sch.id',
             'password' => Hash::make('AdminAzkar2026!'),
             'role' => 'admin',
         ]);
 
-        // 2. Data Kriteria MOORA (30 Kriteria Baru)
+        $admin2 = User::create([
+            'name' => 'Tim Penilai Kedua',
+            'email' => 'penilai@tkalazkar.sch.id',
+            'password' => Hash::make('AdminAzkar2026!'),
+            'role' => 'admin',
+        ]);
+
+        // 2. Data Kriteria MOORA (30 Kriteria - Skala Persentase 1 - 100)
         $kriterias = [
-            ['kode_kriteria' => 'C1', 'nama_kriteria' => 'Pengalaman Mengajar & Kualifikasi', 'jenis' => 'Benefit', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C2', 'nama_kriteria' => 'Pemahaman Karakter & Relasi dengan Anak', 'jenis' => 'Benefit', 'bobot' => 0.06],
-            ['kode_kriteria' => 'C3', 'nama_kriteria' => 'Kreativitas Metode Pembelajaran & APE', 'jenis' => 'Benefit', 'bobot' => 0.06],
-            ['kode_kriteria' => 'C4', 'nama_kriteria' => 'Penguasaan Materi (Agama & Calistung Dasar)', 'jenis' => 'Benefit', 'bobot' => 0.07],
-            ['kode_kriteria' => 'C5', 'nama_kriteria' => 'Kelengkapan & Ketepatan Administrasi (RPPH, dll)', 'jenis' => 'Benefit', 'bobot' => 0.06],
-            ['kode_kriteria' => 'C6', 'nama_kriteria' => 'Problem Solving & Komunikasi Orang Tua', 'jenis' => 'Benefit', 'bobot' => 0.06],
-            ['kode_kriteria' => 'C7', 'nama_kriteria' => 'Prestasi & Pengembangan Diri', 'jenis' => 'Benefit', 'bobot' => 0.04],
-            ['kode_kriteria' => 'C8', 'nama_kriteria' => 'Kedisiplinan Waktu & Kinerja', 'jenis' => 'Benefit', 'bobot' => 0.05],
-            ['kode_kriteria' => 'C9', 'nama_kriteria' => 'Penguasaan Bahasa Asing', 'jenis' => 'Benefit', 'bobot' => 0.05],
-            ['kode_kriteria' => 'C10', 'nama_kriteria' => 'Kepribadian / Personality Guru', 'jenis' => 'Benefit', 'bobot' => 0.05],
-            ['kode_kriteria' => 'C11', 'nama_kriteria' => 'Kebersihan dan Kerapihan Lingkungan Kelas', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C12', 'nama_kriteria' => 'Keaktifan dalam Komunikasi Internal Sekolah', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C13', 'nama_kriteria' => 'Kemampuan Manajemen Kelas', 'jenis' => 'Benefit', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C14', 'nama_kriteria' => 'Kemampuan Menggunakan Teknologi Pembelajaran', 'jenis' => 'Benefit', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C15', 'nama_kriteria' => 'Inovasi dalam Pembelajaran', 'jenis' => 'Benefit', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C16', 'nama_kriteria' => 'Kemampuan Evaluasi dan Penilaian Anak', 'jenis' => 'Benefit', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C17', 'nama_kriteria' => 'Kerapihan dan Kesiapan Mengajar', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C18', 'nama_kriteria' => 'Empati dan Kesabaran terhadap Anak', 'jenis' => 'Benefit', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C19', 'nama_kriteria' => 'Kerja Sama dengan Sesama Guru', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C20', 'nama_kriteria' => 'Keaktifan & Partisipasi Kegiatan Sekolah', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C21', 'nama_kriteria' => 'Kemampuan Storytelling / Mendongeng', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C22', 'nama_kriteria' => 'Kemampuan Mengelola Emosi', 'jenis' => 'Benefit', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C23', 'nama_kriteria' => 'Tingkat Ketidakhadiran', 'jenis' => 'Cost', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C24', 'nama_kriteria' => 'Pelanggaran Tata Tertib & Keluhan', 'jenis' => 'Cost', 'bobot' => 0.03],
-            ['kode_kriteria' => 'C25', 'nama_kriteria' => 'Tingkat Keterlambatan Datang', 'jenis' => 'Cost', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C26', 'nama_kriteria' => 'Kesulitan Menangani Perilaku Anak (Tantrum)', 'jenis' => 'Cost', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C27', 'nama_kriteria' => 'Kelalaian dalam Pengawasan & Keamanan Bermain', 'jenis' => 'Cost', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C28', 'nama_kriteria' => 'Keluhan dari Orang Tua (Frekuensi)', 'jenis' => 'Cost', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C29', 'nama_kriteria' => 'Ketidaksesuaian Metode dengan Kurikulum', 'jenis' => 'Cost', 'bobot' => 0.02],
-            ['kode_kriteria' => 'C30', 'nama_kriteria' => 'Tingkat Burnout / Kelelahan Kerja', 'jenis' => 'Cost', 'bobot' => 0.02],
+            ['kode_kriteria' => 'C1', 'nama_kriteria' => 'Pengalaman Mengajar & Kualifikasi', 'jenis' => 'Benefit', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C2', 'nama_kriteria' => 'Pemahaman Karakter & Relasi dengan Anak', 'jenis' => 'Benefit', 'bobot' => 6.0],
+            ['kode_kriteria' => 'C3', 'nama_kriteria' => 'Kreativitas Metode Pembelajaran & APE', 'jenis' => 'Benefit', 'bobot' => 6.0],
+            ['kode_kriteria' => 'C4', 'nama_kriteria' => 'Penguasaan Materi (Agama & Calistung Dasar)', 'jenis' => 'Benefit', 'bobot' => 7.0],
+            ['kode_kriteria' => 'C5', 'nama_kriteria' => 'Kelengkapan & Ketepatan Administrasi (RPPH, dll)', 'jenis' => 'Benefit', 'bobot' => 6.0],
+            ['kode_kriteria' => 'C6', 'nama_kriteria' => 'Problem Solving & Komunikasi Orang Tua', 'jenis' => 'Benefit', 'bobot' => 6.0],
+            ['kode_kriteria' => 'C7', 'nama_kriteria' => 'Prestasi & Pengembangan Diri', 'jenis' => 'Benefit', 'bobot' => 4.0],
+            ['kode_kriteria' => 'C8', 'nama_kriteria' => 'Kedisiplinan Waktu & Kinerja', 'jenis' => 'Benefit', 'bobot' => 5.0],
+            ['kode_kriteria' => 'C9', 'nama_kriteria' => 'Penguasaan Bahasa Asing', 'jenis' => 'Benefit', 'bobot' => 5.0],
+            ['kode_kriteria' => 'C10', 'nama_kriteria' => 'Kepribadian / Personality Guru', 'jenis' => 'Benefit', 'bobot' => 5.0],
+            ['kode_kriteria' => 'C11', 'nama_kriteria' => 'Kebersihan dan Kerapihan Lingkungan Kelas', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C12', 'nama_kriteria' => 'Keaktifan dalam Komunikasi Internal Sekolah', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C13', 'nama_kriteria' => 'Kemampuan Manajemen Kelas', 'jenis' => 'Benefit', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C14', 'nama_kriteria' => 'Kemampuan Menggunakan Teknologi Pembelajaran', 'jenis' => 'Benefit', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C15', 'nama_kriteria' => 'Inovasi dalam Pembelajaran', 'jenis' => 'Benefit', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C16', 'nama_kriteria' => 'Kemampuan Evaluasi dan Penilaian Anak', 'jenis' => 'Benefit', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C17', 'nama_kriteria' => 'Kerapihan dan Kesiapan Mengajar', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C18', 'nama_kriteria' => 'Empati dan Kesabaran terhadap Anak', 'jenis' => 'Benefit', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C19', 'nama_kriteria' => 'Kerja Sama dengan Sesama Guru', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C20', 'nama_kriteria' => 'Keaktifan & Partisipasi Kegiatan Sekolah', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C21', 'nama_kriteria' => 'Kemampuan Storytelling / Mendongeng', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C22', 'nama_kriteria' => 'Kemampuan Mengelola Emosi', 'jenis' => 'Benefit', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C23', 'nama_kriteria' => 'Tingkat Ketidakhadiran', 'jenis' => 'Cost', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C24', 'nama_kriteria' => 'Pelanggaran Tata Tertib & Keluhan', 'jenis' => 'Cost', 'bobot' => 3.0],
+            ['kode_kriteria' => 'C25', 'nama_kriteria' => 'Tingkat Keterlambatan Datang', 'jenis' => 'Cost', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C26', 'nama_kriteria' => 'Kesulitan Menangani Perilaku Anak (Tantrum)', 'jenis' => 'Cost', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C27', 'nama_kriteria' => 'Kelalaian dalam Pengawasan & Keamanan Bermain', 'jenis' => 'Cost', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C28', 'nama_kriteria' => 'Keluhan dari Orang Tua (Frekuensi)', 'jenis' => 'Cost', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C29', 'nama_kriteria' => 'Ketidaksesuaian Metode dengan Kurikulum', 'jenis' => 'Cost', 'bobot' => 2.0],
+            ['kode_kriteria' => 'C30', 'nama_kriteria' => 'Tingkat Burnout / Kelelahan Kerja', 'jenis' => 'Cost', 'bobot' => 2.0],
         ];
 
         $kriteriaIds = [];
@@ -63,7 +69,7 @@ class DatabaseSeeder extends Seeder
             $kriteriaIds[] = $k->id;
         }
 
-        // 3. Data 12 Guru & Evaluasi Dummy
+        // 3. Data 12 Guru
         $gurus = [
             'Septi Asmara Komalasari', 'Dewi Kusumawati', 'Nyai Asmayati', 'Munhanih',
             'Tika Febriana', 'Zakira Zahra Aulia', 'Melani', 'Farida Nur Oktarianti',
@@ -90,38 +96,74 @@ class DatabaseSeeder extends Seeder
                 'no_telp' => '0812' . rand(10000000, 99999999)
             ]);
 
-            // Buat Evaluasi periode bulan ini
-            $evaluasi = Evaluasi::create([
+            // Skenario 1: Evaluasi Semester Ganjil 2025/2026 oleh Penilai 1 (Kepala Sekolah)
+            $evaluasiGanjil1 = Evaluasi::create([
                 'guru_id' => $guru->id,
-                'periode' => date('Y-m'),
-                'catatan' => 'Evaluasi Kinerja Bulan ' . date('F Y')
+                'penilai_id' => $admin1->id,
+                'periode' => '2025/2026 - Ganjil',
+                'catatan' => 'Evaluasi Semester Ganjil oleh Kepala Sekolah'
             ]);
 
-            // Isi nilai untuk 30 kriteria
+            // Skenario 2: Evaluasi Semester Ganjil 2025/2026 oleh Penilai 2 (Tim Penilai Kedua)
+            $evaluasiGanjil2 = Evaluasi::create([
+                'guru_id' => $guru->id,
+                'penilai_id' => $admin2->id,
+                'periode' => '2025/2026 - Ganjil',
+                'catatan' => 'Evaluasi Semester Ganjil oleh Tim Penilai Kedua'
+            ]);
+
+            // Skenario 3: Evaluasi Semester Genap 2025/2026 oleh Penilai 1 (Kepala Sekolah)
+            $evaluasiGenap1 = Evaluasi::create([
+                'guru_id' => $guru->id,
+                'penilai_id' => $admin1->id,
+                'periode' => '2025/2026 - Genap',
+                'catatan' => 'Evaluasi Semester Genap oleh Kepala Sekolah'
+            ]);
+
+            // Isi nilai detail
             foreach ($kriteriaIds as $k_idx => $k_id) {
                 $jenis = $kriterias[$k_idx]['jenis'];
                 
-                // Set skenario nilai agar algoritma terlihat berjalan
+                // Menentukan nilai dasar guru
                 if ($index === 0) {
-                    // Guru ke-1 (Septi): Sangat Bagus (Benefit 4-5, Cost 1-2)
-                    $nilai = ($jenis == 'Benefit') ? rand(4, 5) : rand(1, 2);
-                } elseif ($index === 1) {
-                    // Guru ke-2 (Dewi): Bagus (Benefit 4, Cost 2)
-                    $nilai = ($jenis == 'Benefit') ? 4 : 2;
+                    // Septi: Bagus
+                    $val1 = ($jenis == 'Benefit') ? rand(80, 95) : rand(10, 30);
+                    $val2 = ($jenis == 'Benefit') ? rand(85, 95) : rand(10, 20);
+                    $val3 = ($jenis == 'Benefit') ? rand(88, 98) : rand(10, 25);
                 } elseif ($index === 11) {
-                    // Guru ke-12 (Iyo): Kurang (Benefit 1-2, Cost 4-5)
-                    $nilai = ($jenis == 'Benefit') ? rand(1, 2) : rand(4, 5);
+                    // Iyo: Kurang
+                    $val1 = ($jenis == 'Benefit') ? rand(50, 70) : rand(60, 80);
+                    $val2 = ($jenis == 'Benefit') ? rand(55, 65) : rand(50, 70);
+                    $val3 = ($jenis == 'Benefit') ? rand(50, 68) : rand(55, 75);
                 } else {
-                    // Guru lainnya: Random Average (Benefit 2-4, Cost 2-4)
-                    $nilai = rand(2, 4);
+                    // Guru lainnya: Sedang
+                    $val1 = rand(70, 85);
+                    $val2 = rand(70, 85);
+                    $val3 = rand(72, 87);
                 }
 
+                // Ganjil Penilai 1
                 EvaluasiDetail::create([
-                    'evaluasi_id' => $evaluasi->id,
+                    'evaluasi_id' => $evaluasiGanjil1->id,
                     'kriteria_id' => $k_id,
-                    'nilai' => $nilai
+                    'nilai' => $val1
+                ]);
+
+                // Ganjil Penilai 2
+                EvaluasiDetail::create([
+                    'evaluasi_id' => $evaluasiGanjil2->id,
+                    'kriteria_id' => $k_id,
+                    'nilai' => $val2
+                ]);
+
+                // Genap Penilai 1
+                EvaluasiDetail::create([
+                    'evaluasi_id' => $evaluasiGenap1->id,
+                    'kriteria_id' => $k_id,
+                    'nilai' => $val3
                 ]);
             }
         }
     }
 }
+

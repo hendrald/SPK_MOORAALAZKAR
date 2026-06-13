@@ -13,8 +13,8 @@ class EvaluasiController extends Controller
 {
     public function index()
     {
-        // Load with guru relation
-        $evaluasis = Evaluasi::with('guru')->orderBy('periode', 'desc')->get();
+        // Load with guru and penilai relation
+        $evaluasis = Evaluasi::with(['guru', 'penilai'])->orderBy('periode', 'desc')->get();
         return view('admin.evaluasi.index', compact('evaluasis'));
     }
 
@@ -35,24 +35,29 @@ class EvaluasiController extends Controller
     {
         $request->validate([
             'guru_id' => 'required|exists:gurus,id',
-            'periode' => 'required',
+            'tahun_ajaran' => 'required|string',
+            'semester' => 'required|in:Ganjil,Genap',
             'nilai'   => 'required|array', // Associative array: ['kriteria_id' => 'nilai', ...]
             'catatan' => 'nullable|string',
         ]);
 
-        // Cek apakah guru di periode ini sudah dievaluasi
+        $periode = $request->tahun_ajaran . ' - ' . $request->semester;
+
+        // Cek apakah guru di periode ini sudah dievaluasi oleh penilai ini
         $isExist = Evaluasi::where('guru_id', $request->guru_id)
-                           ->where('periode', $request->periode)
+                           ->where('periode', $periode)
+                           ->where('penilai_id', auth()->id())
                            ->first();
                            
         if ($isExist) {
-            return back()->with('error', 'Guru ini sudah memiliki nilai evaluasi pada periode tersebut! Silakan edit data yang sudah ada.')->withInput();
+            return back()->with('error', 'Guru ini sudah memiliki nilai evaluasi dari Anda pada periode tersebut! Silakan edit data yang sudah ada.')->withInput();
         }
 
-        DB::transaction(function () use ($request) {
+        DB::transaction(function () use ($request, $periode) {
             $evaluasi = Evaluasi::create([
                 'guru_id' => $request->guru_id,
-                'periode' => $request->periode,
+                'penilai_id' => auth()->id(),
+                'periode' => $periode,
                 'catatan' => $request->catatan,
             ]);
 
@@ -82,24 +87,29 @@ class EvaluasiController extends Controller
 
         $request->validate([
             'guru_id' => 'required|exists:gurus,id',
-            'periode' => 'required',
+            'tahun_ajaran' => 'required|string',
+            'semester' => 'required|in:Ganjil,Genap',
             'nilai'   => 'required|array',
             'catatan' => 'nullable|string',
         ]);
 
+        $periode = $request->tahun_ajaran . ' - ' . $request->semester;
+
         // Cek duplicate selain current ID
         $isExist = Evaluasi::where('guru_id', $request->guru_id)
-                           ->where('periode', $request->periode)
+                           ->where('periode', $periode)
+                           ->where('penilai_id', auth()->id())
                            ->where('id', '!=', $id)
                            ->first();
         if ($isExist) {
-            return back()->with('error', 'Guru pada periode ini sudah terdaftar! Gunakan periode berbeda.');
+            return back()->with('error', 'Guru pada periode ini sudah terdaftar oleh Anda! Gunakan periode berbeda.')->withInput();
         }
 
-        DB::transaction(function () use ($request, $evaluasi) {
+        DB::transaction(function () use ($request, $evaluasi, $periode) {
             $evaluasi->update([
                 'guru_id' => $request->guru_id,
-                'periode' => $request->periode,
+                'penilai_id' => auth()->id(),
+                'periode' => $periode,
                 'catatan' => $request->catatan,
             ]);
 

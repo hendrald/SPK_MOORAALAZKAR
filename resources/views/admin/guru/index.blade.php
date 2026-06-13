@@ -7,8 +7,7 @@
 @endpush
 
 @section('content')
-<h1 class="h3 mb-2 text-gray-800">Master Data Guru</h1>
-<p class="mb-4">Data nama seluruh guru di TK Al Azkar beserta kredensial akun mereka yang digunakan untuk proses evaluasi dan login ke dalam sistem.</p>
+<h1 class="h3 mb-4 text-gray-800">Master Data Guru</h1>
 
 @if(session('success'))
 <div class="alert alert-success">

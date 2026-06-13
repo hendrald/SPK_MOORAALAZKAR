@@ -5,7 +5,7 @@
 @section('content')
 <div style="margin-bottom: 2rem;">
     <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Riwayat Penilaian</h1>
-    <p style="color: var(--text-muted); font-size: 1.1rem;">Pilih tahun dan bulan pada kotak di bawah ini untuk melihat rincian hasil observasi Anda.</p>
+    <p style="color: var(--text-muted); font-size: 1.1rem;">Pilih periode semester pada kotak di bawah ini untuk melihat rincian hasil observasi Anda.</p>
 </div>
 
 <!-- Picker Box -->
@@ -16,10 +16,10 @@
     
     <form action="{{ route('guru.riwayat') }}" method="GET" style="display: flex; gap: 10px; align-items: center; flex-grow: 1; min-width: 250px;">
         <select name="periode" class="modern-input" style="max-width: 300px; padding: 10px 16px; cursor: pointer; appearance: auto;" required>
-            <option value="">-- Pilih Bulan & Tahun --</option>
+            <option value="">-- Pilih Periode Semester --</option>
             @foreach($periods as $p)
                 <option value="{{ $p }}" {{ $selectedPeriod == $p ? 'selected' : '' }}>
-                    {{ date('F Y', strtotime($p . '-01')) }}
+                    {{ $p }}
                 </option>
             @endforeach
         </select>
@@ -35,15 +35,15 @@
     <div class="glass-panel" style="padding: 2.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
             <div>
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">Hasil Observasi Periode {{ date('F Y', strtotime($selectedPeriod . '-01')) }}</h2>
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 4px;">Hasil Observasi Periode {{ $selectedPeriod }}</h2>
                 <p style="color: var(--text-muted); margin: 0;">Berikut adalah rincian skor indikator dari kepala sekolah.</p>
             </div>
-            <a href="{{ route('guru.cetak_rapor', $selectedPeriod) }}" target="_blank" class="btn-modern btn-outline-modern">
+            <a href="{{ route('guru.cetak_rapor', ['periode' => $selectedPeriod]) }}" target="_blank" class="btn-modern btn-outline-modern">
                 <i class="fas fa-print"></i> Cetak Dokumen Rapor
             </a>
         </div>
 
-        <div style="background: #ffffff; border-radius: 1.5rem; overflow: hidden; border: 2px dashed #e5e7eb; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+        <div style="background: #ffffff; border-radius: 1.5rem; overflow-x: auto; border: 2px dashed #e5e7eb; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
             <table class="guru-table">
                 <thead>
                     <tr>
@@ -94,7 +94,7 @@
     <div class="glass-panel" style="padding: 5rem 2rem; text-align: center; background: #ffffff; border: 2px dashed #e5e7eb;">
         <img src="{{ asset('sbadmin/img/undraw_posting_photo.svg') }}" alt="Pilih Periode" style="width: 200px; opacity: 0.8; margin-bottom: 2rem;">
         <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--text-main);">Menunggu Pilihan Anda</h3>
-        <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Gunakan form di atas untuk memilih bulan dan tahun evaluasi yang ingin Anda tinjau nilainya.</p>
+        <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Gunakan form di atas untuk memilih periode evaluasi yang ingin Anda tinjau nilainya.</p>
     </div>
 @endif
 
