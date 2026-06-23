@@ -118,6 +118,34 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('sbadmin/js/sb-admin-2.min.js') }}"></script>
 
+    <style>
+        .swal2-popup {
+            border-radius: 20px !important;
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+    <!-- SweetAlert2 for beautiful popups -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmLogout(event, formId) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda akan keluar dari sesi aktif sistem ini.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#1b7a43',
+                cancelButtonColor: '#e74a3b',
+                confirmButtonText: 'Ya, Keluar!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
+
     @stack('js')
 </body>
 

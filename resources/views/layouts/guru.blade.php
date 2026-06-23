@@ -70,7 +70,7 @@
             <div style="margin-top: auto;">
                 <form action="{{ route('logout') }}" method="POST" id="logout-form">
                     @csrf
-                    <a href="#" class="guru-nav-link text-danger" onclick="document.getElementById('logout-form').submit(); return false;" style="color: #ef4444 !important;">
+                    <a href="#" class="guru-nav-link text-danger" onclick="confirmLogout(event, 'logout-form')" style="color: #ef4444 !important;">
                         <i class="fas fa-sign-out-alt"></i>
                         <span>Keluar</span>
                     </a>
@@ -108,6 +108,34 @@
                 });
             });
         });
+    </script>
+    
+    <style>
+        .swal2-popup {
+            border-radius: 24px !important;
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
+    <!-- SweetAlert2 for beautiful popups -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmLogout(event, formId) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda akan keluar dari sesi aktif sistem ini.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#1b7a43',
+                cancelButtonColor: '#e74a3b',
+                confirmButtonText: 'Ya, Keluar!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
     </script>
     
     @stack('scripts')
