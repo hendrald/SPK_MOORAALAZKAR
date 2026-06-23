@@ -7,6 +7,7 @@
     <meta name="description" content="SPK MOORA - Portal Guru">
     
     <title>@yield('title', 'Ruang Guru') - TK Al Azkar</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
 
     <!-- FontAwesome -->
     <link href="{{ asset('sbadmin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
