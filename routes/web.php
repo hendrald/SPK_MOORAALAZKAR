@@ -19,7 +19,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
         $latestPeriod = \App\Models\Evaluasi::max('periode');
         $top5 = [];
         if ($latestPeriod) {
-            $kriterias = \App\Models\Kriteria::orderBy('kode_kriteria', 'asc')->get();
+            $kriterias = \App\Models\Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
             $evaluasis = \App\Models\Evaluasi::with(['guru', 'details', 'penilai'])->where('periode', $latestPeriod)->get();
             
             // Re-run MOORA logic briefly for dashboard with multi-penilai averaging

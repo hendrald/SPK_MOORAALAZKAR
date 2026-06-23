@@ -31,9 +31,8 @@
 @endif
 
 <div class="card shadow mb-4">
-    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Parameter Kriteria (C1-Cn)</h6>
-        <a href="{{ route('admin.kriteria.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Tambah Kriteria</a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -45,7 +44,6 @@
                         <th>Nama Kriteria Singkat</th>
                         <th>Sifat (Jenis)</th>
                         <th>Bobot (0.x - 1.0)</th>
-                        <th width="15%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,14 +60,6 @@
                             @endif
                         </td>
                         <td><b>{{ $kriteria->bobot }}</b></td>
-                        <td>
-                            <a href="{{ route('admin.kriteria.edit', $kriteria->id) }}" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('admin.kriteria.destroy', $kriteria->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus kriteria ini? Ini bisa membuat evaluasi yang sudah berjalan menjadi tidak valid.')">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
-                            </form>
-                        </td>
                     </tr>
                     @endforeach
                 </tbody>

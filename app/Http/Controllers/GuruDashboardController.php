@@ -39,6 +39,10 @@ class GuruDashboardController extends Controller
                 ->where('periode', $selectedPeriod)
                 ->with('details.kriteria')
                 ->first();
+            
+            if ($evaluasi) {
+                $evaluasi->setRelation('details', $evaluasi->details->sortBy('kriteria.kode_kriteria', SORT_NATURAL));
+            }
         }
 
         return view('guru.riwayat', compact('guru', 'periods', 'selectedPeriod', 'evaluasi'));
@@ -107,9 +111,10 @@ class GuruDashboardController extends Controller
         }
         $guru = Guru::where('user_id', auth()->user()->id)->firstOrFail();
         $evaluasi = Evaluasi::where('guru_id', $guru->id)->where('periode', $periode)->with('details.kriteria')->firstOrFail();
+        $evaluasi->setRelation('details', $evaluasi->details->sortBy('kriteria.kode_kriteria', SORT_NATURAL));
 
         // Calculate MOORA score for this specific period just so the report has the final score
-        $kriterias = Kriteria::orderBy('kode_kriteria', 'asc')->get();
+        $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
         $semuaEvaluasi = Evaluasi::with('details')->where('periode', $periode)->get();
 
         $groupedEvaluasis = $semuaEvaluasi->groupBy('penilai_id');

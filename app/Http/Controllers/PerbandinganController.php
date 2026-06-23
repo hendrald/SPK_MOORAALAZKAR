@@ -67,7 +67,7 @@ class PerbandinganController extends Controller
                         'p2' => $results2[$guru->id] ?? null,
                     ];
 
-                    $kriterias = Kriteria::orderBy('kode_kriteria')->get();
+                    $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
                     
                     // Fetch all details for this teacher in Period 1 and Period 2
                     $details1 = \App\Models\EvaluasiDetail::whereIn('evaluasi_id', function($q) use ($guru, $p1) {
@@ -101,7 +101,7 @@ class PerbandinganController extends Controller
 
     private function calculateMooraForPeriod($periode)
     {
-        $kriterias = Kriteria::orderBy('kode_kriteria', 'asc')->get();
+        $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
         if ($kriterias->isEmpty()) return [];
         
         $evaluasis = Evaluasi::with(['guru', 'details'])->where('periode', $periode)->get();

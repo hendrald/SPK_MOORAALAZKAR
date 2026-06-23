@@ -9,7 +9,7 @@ class KriteriaController extends Controller
 {
     public function index()
     {
-        $kriterias = Kriteria::orderBy('kode_kriteria')->get();
+        $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
         return view('admin.kriteria.index', compact('kriterias'));
     }
 

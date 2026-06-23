@@ -21,7 +21,7 @@ class EvaluasiController extends Controller
     public function create()
     {
         $gurus = Guru::all();
-        $kriterias = Kriteria::orderBy('kode_kriteria')->get();
+        $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
         
         if($gurus->isEmpty() || $kriterias->isEmpty()) {
             return redirect()->route('admin.evaluasi.index')
@@ -43,7 +43,7 @@ class EvaluasiController extends Controller
 
         $periode = $request->tahun_ajaran . ' - ' . $request->semester;
 
-        // Cek apakah guru di periode ini sudah dievaluasi oleh penilai ini
+        // Pengeekan apakah guru sudah melakukan penilaian pada periode ini
         $isExist = Evaluasi::where('guru_id', $request->guru_id)
                            ->where('periode', $periode)
                            ->where('penilai_id', auth()->id())
@@ -77,7 +77,7 @@ class EvaluasiController extends Controller
     {
         $evaluasi = Evaluasi::with('details')->findOrFail($id);
         $gurus = Guru::all();
-        $kriterias = Kriteria::orderBy('kode_kriteria')->get();
+        $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
         return view('admin.evaluasi.edit', compact('evaluasi', 'gurus', 'kriterias'));
     }
 

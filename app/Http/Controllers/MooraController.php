@@ -25,7 +25,7 @@ class MooraController extends Controller
             return back()->with('error', 'Silakan pilih periode terlebih dahulu.');
         }
 
-        $kriterias = Kriteria::orderBy('kode_kriteria', 'asc')->get();
+        $kriterias = Kriteria::orderByRaw('LENGTH(kode_kriteria) ASC, kode_kriteria ASC')->get();
         if ($kriterias->isEmpty()) {
             return back()->with('error', 'Perhitungan tidak dapat dilakukan karena data Kriteria masih kosong.');
         }
