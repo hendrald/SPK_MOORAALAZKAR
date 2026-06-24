@@ -43,7 +43,7 @@
                         <td>{{ $eva->details()->count() }} Kriteria</td>
                         <td>
                             <a href="{{ route('admin.evaluasi.edit', $eva->id) }}" class="btn btn-warning btn-sm" title="Edit Rincian"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('admin.evaluasi.destroy', $eva->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Hapus seluruh nilai evaluasi guru ini pada periode {{ $eva->periode }}?')">
+                            <form action="{{ route('admin.evaluasi.destroy', $eva->id) }}" method="POST" class="d-inline" onsubmit="confirmDelete(event, this, 'Hapus seluruh nilai evaluasi guru ini pada periode {{ $eva->periode }}?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>

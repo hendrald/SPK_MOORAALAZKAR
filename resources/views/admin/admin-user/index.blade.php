@@ -51,7 +51,7 @@
                             <a href="{{ route('admin.admin-user.edit', $admin->id) }}" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
                             
                             @if($admin->id !== auth()->id())
-                            <form action="{{ route('admin.admin-user.destroy', $admin->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus akun admin ini? Tindakan ini akan menghapus semua penilaian yang pernah diinput oleh admin ini.')">
+                            <form action="{{ route('admin.admin-user.destroy', $admin->id) }}" method="POST" class="d-inline" onsubmit="confirmDelete(event, this, 'Yakin ingin menghapus akun admin ini? Tindakan ini akan menghapus semua penilaian yang pernah diinput oleh admin ini.')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>

@@ -54,7 +54,7 @@
                         <td>{{ $guru->no_telp ?? '-' }}</td>
                         <td>
                             <a href="{{ route('admin.guru.edit', $guru->id) }}" class="btn btn-warning btn-sm" title="Edit"><i class="fas fa-edit"></i></a>
-                            <form action="{{ route('admin.guru.destroy', $guru->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus guru ini beserta riwayat nilainya?')">
+                            <form action="{{ route('admin.guru.destroy', $guru->id) }}" method="POST" class="d-inline" onsubmit="confirmDelete(event, this, 'Yakin ingin menghapus guru ini beserta riwayat nilainya?')">
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></button>
