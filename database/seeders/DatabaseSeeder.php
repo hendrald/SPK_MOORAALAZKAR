@@ -71,15 +71,22 @@ class DatabaseSeeder extends Seeder
 
         // 3. Data 12 Guru
         $gurus = [
-            'Septi Asmara Komalasari', 'Dewi Kusumawati', 'Nyai Asmayati', 'Munhanih',
-            'Tika Febriana', 'Zakira Zahra Aulia', 'Melani', 'Farida Nur Oktarianti',
-            'Azka Azkiya', 'Ragita Cahyantika', 'Rio Susan Hertanto', 'Iyo Sri Wardhana'
+            ['nama' => 'Septi Asmara Komalasari', 'nip' => '3240752653300023', 'no_telp' => '087887567648'],
+            ['nama' => 'Dewi Kusumawati', 'nip' => '4050761662220003', 'no_telp' => '08121909202'],
+            ['nama' => 'Nyai Asmayati', 'nip' => '2852761662300022', 'no_telp' => '081586981178'],
+            ['nama' => 'Munhanih', 'nip' => '4552749650300000', 'no_telp' => '081297962308'],
+            ['nama' => 'Tika Febriana', 'nip' => null, 'no_telp' => '083876960612'],
+            ['nama' => 'Zakira Zahra Aulia', 'nip' => null, 'no_telp' => '085715314099'],
+            ['nama' => 'Melani', 'nip' => null, 'no_telp' => '085714728333'],
+            ['nama' => 'Farida Nur Oktarianti', 'nip' => null, 'no_telp' => '081219034167'],
+            ['nama' => 'Azka Azkiya', 'nip' => null, 'no_telp' => '085921385349'],
+            ['nama' => 'Ragita Cahyantika', 'nip' => null, 'no_telp' => '08557049188'],
+            ['nama' => 'Rio Susan Hertanto', 'nip' => null, 'no_telp' => '085213383447'],
+            ['nama' => 'Iyo Sri Wardhana', 'nip' => null, 'no_telp' => '087782674102']
         ];
 
-        $nipCounter = 198001012010011000;
-
-        foreach ($gurus as $index => $nama) {
-            $nipCounter++;
+        foreach ($gurus as $index => $gData) {
+            $nama = $gData['nama'];
             $namaDepan = strtolower(explode(' ', trim($nama))[0]);
 
             $userGuru = User::create([
@@ -91,9 +98,9 @@ class DatabaseSeeder extends Seeder
 
             $guru = Guru::create([
                 'user_id' => $userGuru->id,
-                'nip' => (string) $nipCounter,
+                'nip' => $gData['nip'],
                 'nama_lengkap' => $nama,
-                'no_telp' => '0812' . rand(10000000, 99999999)
+                'no_telp' => $gData['no_telp']
             ]);
 
             // Skenario 1: Evaluasi Semester Ganjil 2025/2026 oleh Penilai 1 (Kepala Sekolah)
