@@ -45,19 +45,40 @@
 
                     <div class="form-group">
                         <label>Password Saat Ini</label>
-                        <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Isi bila ingin mengubah password">
+                        <div class="input-group">
+                            <input type="password" name="current_password" id="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Isi bila ingin mengubah password">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary toggle-pwd" type="button" data-target="current_password" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
                         @error('current_password') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Password Baru</label>
-                        <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="Minimal 6 karakter">
+                        <div class="input-group">
+                            <input type="password" name="new_password" id="new_password" class="form-control @error('new_password') is-invalid @enderror" placeholder="Minimal 6 karakter">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary toggle-pwd" type="button" data-target="new_password" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
                         @error('new_password') <small class="text-danger">{{ $message }}</small> @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Konfirmasi Password Baru</label>
-                        <input type="password" name="new_password_confirmation" class="form-control" placeholder="Ulangi password baru">
+                        <div class="input-group">
+                            <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="form-control" placeholder="Ulangi password baru">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary toggle-pwd" type="button" data-target="new_password_confirmation" style="border-top-right-radius: 0.35rem; border-bottom-right-radius: 0.35rem;">
+                                    <i class="fas fa-eye-slash"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-save mr-1"></i> Simpan Perubahan</button>
@@ -76,4 +97,24 @@
         </div>
     </div>
 </div>
+
+@push('js')
+<script>
+    $(document).ready(function() {
+        $('.toggle-pwd').on('click', function() {
+            const targetId = $(this).attr('data-target');
+            const inputField = $('#' + targetId);
+            const icon = $(this).find('i');
+            
+            if (inputField.attr('type') === 'password') {
+                inputField.attr('type', 'text');
+                icon.removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                inputField.attr('type', 'password');
+                icon.removeClass('fa-eye').addClass('fa-eye-slash');
+            }
+        });
+    });
+</script>
+@endpush
 @endsection

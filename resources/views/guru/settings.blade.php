@@ -94,15 +94,30 @@
             
             <div style="margin-bottom: 1.5rem;">
                 <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Kata Sandi Saat Ini</label>
-                <input type="password" name="current_password" class="modern-input" required placeholder="Masukkan sandi lama...">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="password" name="current_password" id="current_password" class="modern-input" required placeholder="Masukkan sandi lama..." style="padding-right: 2.5rem;">
+                    <button type="button" class="toggle-pwd-guru" data-target="current_password" style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                </div>
             </div>
             <div style="margin-bottom: 1.5rem;">
                 <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Kata Sandi Baru</label>
-                <input type="password" name="new_password" class="modern-input" required placeholder="Minimal 6 karakter...">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="password" name="new_password" id="new_password" class="modern-input" required placeholder="Minimal 6 karakter..." style="padding-right: 2.5rem;">
+                    <button type="button" class="toggle-pwd-guru" data-target="new_password" style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                </div>
             </div>
             <div style="margin-bottom: 2rem;">
                 <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">Ulangi Kata Sandi Baru</label>
-                <input type="password" name="new_password_confirmation" class="modern-input" required placeholder="Ketik ulang sandi baru...">
+                <div style="position: relative; display: flex; align-items: center;">
+                    <input type="password" name="new_password_confirmation" id="new_password_confirmation" class="modern-input" required placeholder="Ketik ulang sandi baru..." style="padding-right: 2.5rem;">
+                    <button type="button" class="toggle-pwd-guru" data-target="new_password_confirmation" style="position: absolute; right: 12px; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; justify-content: center; outline: none; padding: 0;">
+                        <i class="fas fa-eye-slash"></i>
+                    </button>
+                </div>
             </div>
             
             <button type="submit" class="btn-modern" style="width: 100%; background: linear-gradient(135deg, var(--secondary-color) 0%, #e85d4e 100%); color: white; box-shadow: 0 4px 15px rgba(241, 127, 114, 0.3);">
@@ -124,6 +139,23 @@
             }
             reader.readAsDataURL(e.target.files[0]);
         }
+    });
+
+    // Toggle Password Visibility Feature
+    document.querySelectorAll('.toggle-pwd-guru').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const inputField = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+            
+            if (inputField.getAttribute('type') === 'password') {
+                inputField.setAttribute('type', 'text');
+                icon.className = 'fas fa-eye';
+            } else {
+                inputField.setAttribute('type', 'password');
+                icon.className = 'fas fa-eye-slash';
+            }
+        });
     });
 </script>
 @endpush

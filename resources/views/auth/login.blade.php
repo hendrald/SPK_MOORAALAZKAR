@@ -334,7 +334,10 @@
                     <label class="form-label" for="password">Kata Sandi</label>
                     <div class="input-wrapper">
                         <i class="ri-lock-2-line input-icon"></i>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan kata sandi" required autocomplete="current-password">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan kata sandi" required autocomplete="current-password" style="padding-right: 3.2rem;">
+                        <button type="button" id="togglePassword" style="position: absolute; right: 1.2rem; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 20px; z-index: 3; display: flex; align-items: center; justify-content: center; height: 100%; outline: none; padding: 0;">
+                            <i class="ri-eye-off-line" id="eyeIcon"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -347,5 +350,27 @@
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.querySelector('#togglePassword');
+            const passwordInput = document.querySelector('#password');
+            const eyeIcon = document.querySelector('#eyeIcon');
+
+            if (togglePassword && passwordInput && eyeIcon) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    
+                    if (type === 'password') {
+                        eyeIcon.classList.remove('ri-eye-line');
+                        eyeIcon.classList.add('ri-eye-off-line');
+                    } else {
+                        eyeIcon.classList.remove('ri-eye-off-line');
+                        eyeIcon.classList.add('ri-eye-line');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
